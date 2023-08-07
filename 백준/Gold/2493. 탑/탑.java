@@ -35,10 +35,12 @@ public class Main {
 				}
 			}
 		}
-				
+			
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < answer.length; i++) {
-			System.out.print(answer[i] + " ");
+			sb.append(answer[i] + " ");
 		}
+		System.out.println(sb);
 	}
 
 }
