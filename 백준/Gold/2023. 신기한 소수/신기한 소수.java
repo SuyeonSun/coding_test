@@ -1,14 +1,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Main {
     public static boolean isPrime(int n) {
-        for (int i = 2; i < n; i++) {
+        for (int i = 2; i*i < n; i++) {
             if (n % i == 0) return false;
         }
         return true;
@@ -32,5 +31,4 @@ public class Main {
             System.out.println(queue.poll());
         }
     }
-
 }
