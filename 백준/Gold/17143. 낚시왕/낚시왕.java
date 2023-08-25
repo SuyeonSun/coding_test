@@ -101,6 +101,12 @@ public class Main {
 		
 		int total = 0;
 		sea = new ArrayList<>();
+		for(int i = 0; i<=R; i++) {
+			sea.add(new ArrayList<>());
+			for(int j = 0; j<=C; j++) {
+				sea.get(i).add(new ArrayList<>());
+			}
+		}
 		for(int c = 1; c<=C; c++) {
 			int getcha = -1;
 			for(int j = 0; j<shark.size(); j++) {
@@ -120,12 +126,9 @@ public class Main {
 			
 //			System.out.println("잡았다");
 			
-			sea.clear();
-			
 			for(int i = 0; i<=R; i++) {
-				sea.add(new ArrayList<>());
 				for(int j = 0; j<=C; j++) {
-					sea.get(i).add(new ArrayList<>());
+					sea.get(i).get(j).clear();
 				}
 			}
 			
