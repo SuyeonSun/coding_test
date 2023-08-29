@@ -30,7 +30,7 @@ public class Main {
 	}
 	
 	static int N, M, K;
-	static LinkedList<Fire> ball = new LinkedList<>();
+	static ArrayList<Fire> ball = new ArrayList<>();
 	static ArrayList<Fire>[][] map;
 	
 	public static void main(String[] args) throws Exception{
@@ -50,7 +50,7 @@ public class Main {
 			int s = Integer.parseInt(st.nextToken());
 			int d = Integer.parseInt(st.nextToken());
 			
-			ball.offer(new Fire(r,c,m,s,d));
+			ball.add(new Fire(r,c,m,s,d));
 			total += m;
 		}
 		
@@ -93,7 +93,7 @@ public class Main {
 					else d = 1;
 					if(m <= 0) continue;
 					for(int f = 0; f<4; f++) {
-						ball.offer(new Fire(i, j, m, s, d+f*2));
+						ball.add(new Fire(i, j, m, s, d+f*2));
 					}
 					total += 4*m;
 				}
