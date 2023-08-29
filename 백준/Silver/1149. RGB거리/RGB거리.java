@@ -1,33 +1,30 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(in.readLine());
-		int[][] arr = new int[N][3];
-		for (int i = 0; i < N; i++) {
-			String[] value = in.readLine().split(" ");
-			arr[i][0] = Integer.parseInt(value[0]);
-			arr[i][1] = Integer.parseInt(value[1]);
-			arr[i][2] = Integer.parseInt(value[2]);
-		}
 
-		for (int i = 1; i < N; i++) {
-			arr[i][0] = arr[i][0] + Math.min(arr[i-1][1], arr[i-1][2]);
-			arr[i][1] = arr[i][1] + Math.min(arr[i-1][0], arr[i-1][2]);
-			arr[i][2] = arr[i][2] + Math.min(arr[i-1][0], arr[i-1][1]);
+	static int N;
+	static int[][] cost;
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		N = Integer.parseInt(br.readLine());
+		cost = new int[N+1][3];
+		int[] temp = new int[3];
+		cost[0][1] = 0; cost[0][1] = 0; cost[0][2] = 0;
+		for(int i = 1; i<=N; i++) {
+			st = new StringTokenizer(br.readLine());
+			temp[0] = Integer.parseInt(st.nextToken());
+			temp[1] = Integer.parseInt(st.nextToken());
+			temp[2] = Integer.parseInt(st.nextToken());
+			cost[i][0] = Math.min(cost[i-1][1]+temp[0], cost[i-1][2]+temp[0]);
+			cost[i][1] = Math.min(cost[i-1][0]+temp[1], cost[i-1][2]+temp[1]);
+			cost[i][2] = Math.min(cost[i-1][0]+temp[2], cost[i-1][1]+temp[2]);
 		}
 		
-		int ans = Integer.MAX_VALUE;
-		for (int i = 0; i < 3; i++) {
-			int num = arr[N-1][i];
-			if (num < ans) {
-				ans = num;
-			}
-		}
-		System.out.println(ans);
+		System.out.println(Math.min(cost[N][0], Math.min(cost[N][1], cost[N][2])));
 	}
 
 }
