@@ -20,6 +20,12 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		String[] temp = br.readLine().split(" ");
 		N = temp.length;
+		
+		if(N == 1) {
+			System.out.println(0);
+			return;
+		}
+		
 		input = new int[N];
 		//왼발이 input에 가는 경우 오른발이 input에 가는 경우를 나눠서 생각함.
 		dp = new int[N][5][5];
@@ -31,6 +37,7 @@ public class Main {
 				{5000000,5000000,5000000,5000000,5000000},
 				{5000000,5000000,5000000,5000000,5000000}
 		};
+				
 		for(int i = 1; i<=temp.length; i++) {
 			int num = Integer.parseInt(temp[i-1]);
 			if(num == 0) {
@@ -44,10 +51,7 @@ public class Main {
 				}
 			}
 		}
-		if(N == 1) {
-			System.out.println(0);
-			return;
-		}
+				
 		for(int i = 1; i<N; i++) {
 			for(int j = 0; j<5; j++) {
 				for(int k = 0; k<5; k++) {
