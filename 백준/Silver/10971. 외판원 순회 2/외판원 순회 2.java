@@ -21,25 +21,27 @@ public class Main {
 			}
 		}
 		
-		for(int i = 0; i<N; i++) {
-			visited[i] = true;
-			dfs(i, 0, 1, i);
-			visited[i] = false;
-		}
+//		for(int i = 0; i<N; i++) {
+			visited[0] = true;
+			dfs(0, 0, 1, 0);
+			visited[0] = false;
+//		}
 		System.out.println(ans);
 	}
 
 	static void dfs(int from, int c, int depth, int start) {
-		if(depth == N && from != N-1) return;
-		if(from == N-1) {
+		if(c >= ans) return;
+//		if(depth == N && from != N-1) return;
+//		if(from == N-1) {
 			if(depth == N) {
-//				if(cost[from][start] != Integer.MAX_VALUE) {
+				if(cost[from][start] != Integer.MAX_VALUE) {
 					ans = Math.min(ans, c+cost[from][start]);
-//				}
+				}
 				return;
 			}
-		}
+//		}
 		
+			
 		for(int i =0; i<N; i++) {
 			if(visited[i]) continue;
 			if(cost[from][i] != Integer.MAX_VALUE) {
