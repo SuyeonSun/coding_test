@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int[][] room;
+	static boolean[][] room;
 	static long[][][] dp;
 	static int N;
 	
@@ -12,12 +12,14 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		N = Integer.parseInt(br.readLine());
-		room = new int[N+1][N+1];
+		room = new boolean[N+1][N+1];
 		dp = new long[N+1][N+1][3];
 		for(int i = 1; i<=N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j = 1; j<=N; j++) {
-				room[i][j] = Integer.parseInt(st.nextToken());
+				if(st.nextToken().charAt(0) == '1') {
+					room[i][j] = true;
+				}
 			}
 		}
 		
@@ -50,7 +52,7 @@ public class Main {
 		if(nr <= 0 || nr > N || nc <= 0 || nc > N) {
 			return false;
 		}
-		if(room[nr][nc] == 1) return false;
+		if(room[nr][nc]) return false;
 		return true;
 	}
 	
