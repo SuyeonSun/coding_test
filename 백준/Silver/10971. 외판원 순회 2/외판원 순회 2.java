@@ -33,9 +33,9 @@ public class Main {
 		if(depth == N && from != N-1) return;
 		if(from == N-1) {
 			if(depth == N) {
-				if(cost[from][start] != Integer.MAX_VALUE) {
+//				if(cost[from][start] != Integer.MAX_VALUE) {
 					ans = Math.min(ans, c+cost[from][start]);
-				}
+//				}
 				return;
 			}
 		}
