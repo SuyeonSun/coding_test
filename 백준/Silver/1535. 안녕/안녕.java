@@ -4,11 +4,35 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int[] pList;
+    static int[] jList;
+    static int[] numbers;
+    static int r;
+    static int maxJ = 0;
+
+    public static void combination(int start, int cnt) {
+        if (cnt == r) {
+            int totalP = 100;
+            int totalJ = 0;
+            for (int i = 0; i < numbers.length; i++) {
+                totalP -= pList[numbers[i]];
+                totalJ += jList[numbers[i]];
+            }
+            if (totalJ > maxJ && totalP > 0) maxJ = totalJ;
+            return;
+        }
+
+        for (int i = start; i < pList.length; i++) {
+            numbers[cnt] = i;
+            combination(i+1, cnt+1);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(in.readLine());
-        int[] pList = new int[N];
-        int[] jList = new int[N];
+        pList = new int[N];
+        jList = new int[N];
 
         StringTokenizer st= new StringTokenizer(in.readLine());
 
@@ -19,19 +43,16 @@ public class Main {
         // 기쁨
         st = new StringTokenizer(in.readLine());
         for (int i = 0; i < N; i++) {
-            
             jList[i] = Integer.parseInt(st.nextToken());
         }
 
-
-        int[] dp = new int[100];
-
-        for (int i = 0; i < N; i++) {
-            for (int j = 99; j >= pList[i]; j--) {
-                dp[j] = Math.max(dp[j-pList[i]] + jList[i], dp[j]);
-            }
+        // 1~arr의 길이까지 선택하기
+        for (int i = 1; i <= pList.length; i++) {
+            r = i;
+            numbers = new int[i];
+            combination(0, 0);
         }
-
-        System.out.println(dp[99]);
+        // 정답 출력
+        System.out.println(maxJ);
     }
 }
