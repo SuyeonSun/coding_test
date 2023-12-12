@@ -1,44 +1,59 @@
 class Solution {
+    // 0부터 9까지 좌표 {y,x}
+    int[][] numpadPos = {
+            {3,1}, //0
+            {0,0}, //1
+            {0,1}, //2
+            {0,2}, //3
+            {1,0}, //4
+            {1,1}, //5
+            {1,2}, //6
+            {2,0}, //7
+            {2,1}, //8
+            {2,2}  //9
+    };
+    //초기 위치
+    int[] leftPos = {3,0};
+    int[] rightPos = {3,2};
+    
+    private int getDist(int[] pos, int num) {
+        return Math.abs(pos[0] - numpadPos[num][0]) + Math.abs(pos[1]-numpadPos[num][1]);
+    }
+    
     public String solution(int[] numbers, String hand) {
-        StringBuilder sb = new StringBuilder();
-
-        int left = 10;
-        int right = 12;
-
-        for (int i = 0; i < numbers.length; i++) {
-            int n = numbers[i];
-
-            if (n == 1 || n == 4 || n == 7) {
-                left = n;
-                sb.append("L");
+        String answer = "";
+        
+        for (int num : numbers) {
+            if (num == 1 || num == 4 || num == 7) {
+                leftPos = numpadPos[num];
+                answer += "L";
             }
-            if (n == 3 || n == 6 || n == 9) {
-                right = n;
-                sb.append("R");
+            if (num == 3 || num == 6 || num == 9) {
+                rightPos = numpadPos[num];
+                answer += "R";
             }
-            if (n == 2 || n == 5 || n == 8 || n == 0) {
-                if( n == 0 ) n = 11;
-
-                int leftDiff = (Math.abs(n - left) / 3) + (Math.abs(n - left) % 3);
-                int rightDiff =(Math.abs(n - right) / 3) + (Math.abs(n - right) % 3);
-
-                if (leftDiff == rightDiff) {
+            if (num == 2 || num == 5 || num == 8 || num == 0) {
+                if (getDist(leftPos, num) > getDist(rightPos, num)) {
+                    answer += "R";
+                    rightPos = numpadPos[num];
+                }
+                if (getDist(leftPos, num) < getDist(rightPos, num)) {
+                    answer += "L";
+                    leftPos = numpadPos[num];
+                }
+                if (getDist(leftPos, num) == getDist(rightPos, num)) {
                     if (hand.equals("right")) {
-                        right = n;
-                        sb.append("R");
-                    }else{
-                        left = n;
-                        sb.append("L");
+                        rightPos = numpadPos[num];
+                        answer += "R";
                     }
-                } else if (leftDiff > rightDiff) {
-                    right = n;
-                    sb.append("R");
-                } else {
-                    left = n;
-                    sb.append("L");
+                    else {
+                        leftPos = numpadPos[num];
+                        answer += "L";
+                    }
                 }
             }
         }
-        return sb.toString();
+        
+        return answer;
     }
 }
