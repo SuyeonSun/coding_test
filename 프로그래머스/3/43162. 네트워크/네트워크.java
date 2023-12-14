@@ -1,34 +1,36 @@
 import java.util.*;
 
 class Solution {
-    static boolean visit[];
-    static Queue<Integer> queue = new LinkedList<>();
+    private void visitAll(int computer, int[][] computers, boolean[] isVisited) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(computer);
+        
+        while(!stack.isEmpty()) {
+            int pop = stack.pop();
+            
+            // if (isVisited[pop]) continue;
+            isVisited[pop] = true;
+            
+            for (int i = 0; i < computers[pop].length; i++) {
+                if (computers[pop][i] == 0) continue;
+                if (isVisited[i]) continue;
+                stack.push(i);
+            }
+        }
+    }
     
     public int solution(int n, int[][] computers) {
         int answer = 0;
-        visit = new boolean[n];
+        
+        boolean[] isVisited = new boolean[n];
         
         for (int i = 0; i < n; i++) {
-            if (visit[i] == false) {
-                bfs(i, n, computers);
-                answer++;
-            }
+            if (isVisited[i]) continue;
+            visitAll(i, computers, isVisited);
+            answer++;
         }
-        return answer;
-    }
-    
-    static void bfs(int i, int n, int[][] computers) {
-        queue.add(i);
-        visit[i] = true;
         
-        while (!queue.isEmpty()) {
-            int poll = queue.poll();
-            for (int j = 0; j < n; j++) {
-                if (visit[j] == false && computers[poll][j] == 1) {
-                    visit[j] = true;
-                    queue.add(j);
-                }
-            }
-        }
+        
+        return answer;
     }
 }
