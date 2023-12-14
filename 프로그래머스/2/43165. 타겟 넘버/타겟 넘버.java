@@ -1,32 +1,38 @@
-import java.util.Stack;
+import java.util.*;
 
 class Solution {
-    public static class State {
-        public final int index;
+    private static class State {
+        public final int idx;
         public final int acc;
-        State(int index, int acc) {
-            this.index = index;
+        
+        State(int idx, int acc) {
+            this.idx = idx;
             this.acc = acc;
         }
     }
     
     public int solution(int[] numbers, int target) {
-        int count = 0;
+        int answer = 0;
         
-        Stack<State> s = new Stack<>();
-        s.push(new State(0, 0));
+        Stack<State> stack = new Stack<>();
         
-        while (!s.isEmpty()) {
-            State state = s.pop();
-            if (state.index == numbers.length) {
-                if(state.acc == target) count++;
-                continue;
-            }
+        stack.push(new State(0, 0));
+        
+        while (!stack.isEmpty()) {
+            State pop = stack.pop();
             
-            s.push(new State(state.index+1, state.acc - numbers[state.index]));
-            s.push(new State(state.index+1, state.acc + numbers[state.index]));
+            if (pop.idx == numbers.length) {
+                if (pop.acc == target) {
+                    answer++;   
+                }
+                continue;
+            };
+            
+            stack.push(new State(pop.idx+1, pop.acc-numbers[pop.idx]));
+            stack.push(new State(pop.idx+1, pop.acc+numbers[pop.idx]));
         }
         
-        return count;
+        
+        return answer;
     }
 }
