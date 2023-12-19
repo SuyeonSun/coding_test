@@ -1,7 +1,7 @@
 import java.util.*;
 
 class Solution {
-    private static class State {
+    public static class State {
         public final int idx;
         public final int acc;
         
@@ -15,21 +15,19 @@ class Solution {
         int answer = 0;
         
         Stack<State> stack = new Stack<>();
-        
         stack.push(new State(0, 0));
         
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()) {
             State pop = stack.pop();
-            
             if (pop.idx == numbers.length) {
-                if (pop.acc == target) {
-                    answer++;   
+                if (target == pop.acc) {
+                    answer++;
                 }
                 continue;
-            };
+            }
             
-            stack.push(new State(pop.idx+1, pop.acc-numbers[pop.idx]));
-            stack.push(new State(pop.idx+1, pop.acc+numbers[pop.idx]));
+            stack.push(new State(pop.idx+1, pop.acc + numbers[pop.idx]));
+            stack.push(new State(pop.idx+1, pop.acc - numbers[pop.idx]));
         }
         
         
