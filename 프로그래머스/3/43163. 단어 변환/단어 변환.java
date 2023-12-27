@@ -1,56 +1,56 @@
 import java.util.*;
 
 class Solution {
-    private static class State {
-        public final String word; // 왜 여기는 public?
-        public final int step;
+    private class State {
+        private String word;
+        private int cnt;
         
-        private State(String word, int step) {
+        private State(String word, int cnt) {
             this.word = word;
-            this.step = step;
+            this.cnt = cnt;
         }
     }
     
-    // 변경된 문자 개수 확인
-    private boolean isConvertable(String src, String dst) {
-        char[] srcArr = src.toCharArray();
-        char[] dstArr = dst.toCharArray();
+    private boolean isConvertable(String cur, String next) {
+        char[] curArr = cur.toCharArray();
+        char[] nextArr = next.toCharArray();
         
         int diff = 0;
-        for (int i = 0; i < srcArr.length; i++) {
-            if (srcArr[i] != dstArr[i]) diff++;
+        for (int i = 0; i < curArr.length; i++) {
+            if (curArr[i] == nextArr[i]) continue;
+            else diff++;
         }
-        
-        return diff == 1;
+        if (diff == 1) return true;
+        else return false;
     }
     
-    public int solution(String begin, String target, String[] words) {        
+    public int solution(String begin, String target, String[] words) {
+        int answer = 0;
+        
         boolean[] isVisited = new boolean[words.length];
         
         Queue<State> queue = new LinkedList<>();
         queue.add(new State(begin, 0));
         
-        while (!queue.isEmpty()) {
-            State state = queue.poll();
+        while(!queue.isEmpty()) {
+            State pop = queue.poll();
             
-            if (state.word.equals(target)) {
-                return state.step;
+            if (pop.word.equals(target)) {
+                return pop.cnt;
             }
             
             for (int i = 0; i < words.length; i++) {
-                String next = words[i];
-                
-                if (!isConvertable(state.word, next)) {
-                    continue;
-                }
-                
                 if (isVisited[i]) continue;
-                
-                isVisited[i] = true;
-                queue.add(new State(next, state.step + 1));
+                else {
+                    if (isConvertable(pop.word, words[i])) {
+                        isVisited[i] = true;
+                        queue.add(new State(words[i], pop.cnt+1));
+                    }
+                }
             }
         }
-    
+        
+        
         return 0;
     }
 }
