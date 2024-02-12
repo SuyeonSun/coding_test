@@ -4,36 +4,38 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N;
-    static int M;
-    static int[] numbers;
-    static boolean[] isVisited;
 
-    public static void combination(int cnt) {
-        if (cnt == M) {
-            for (int i = 0; i < M; i++) {
-                System.out.print(numbers[i] + " ");
-            }
-            System.out.println();
-            return;
-        }
+	public static int[] arr;
+	public static boolean[] visit;
 
-        for (int i = 0; i < N; i++) {
-            if (isVisited[i]) continue;
-            numbers[cnt] = i+1;
-            isVisited[i] = true;
-            combination(cnt+1);
-            isVisited[i] = false;
-        }
-    }
+	public static void dfs(int N, int M, int depth) {
+		if (depth == M) {
+			for (int i = 0; i < M; i++) {
+				System.out.print(arr[i] + " ");
+			}
+			System.out.println();
+			return;
+		}
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(in.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        numbers = new int[M];
-        isVisited = new boolean[N];
-        combination(0);
-    }
+		for (int i = 0; i < N; i++) {
+			if (!visit[i]) {
+				visit[i] = true;
+				arr[depth] = i+1;
+				dfs(N, M, depth + 1);
+				visit[i] = false;
+			}
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(in.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+
+		arr = new int[M];
+		visit = new boolean[N];
+
+		dfs(N, M, 0);
+	}
 }
