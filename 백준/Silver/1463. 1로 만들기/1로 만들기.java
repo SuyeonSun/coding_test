@@ -1,27 +1,22 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-	static int N;
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
-		int[] arr = new int[1000001];
-		arr[1] = 0;
-		arr[2] = 1;
-		for(int i = 3; i<=N; i++) {
-			int t1 = Integer.MAX_VALUE, t2 = Integer.MAX_VALUE, t3;
-			if(i % 3 == 0) {
-				t1 = arr[i/3]+1;
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(in.readLine());
+		int[] dp = new int[N+1];
+		dp[0] = dp[1] = 0;
+		for (int i = 2; i <= N; i++) {
+			dp[i] = dp[i-1] + 1; // -1은 무조건 적용
+			if (i % 2 == 0) { 
+				dp[i] = Math.min(dp[i], dp[i/2] + 1);
 			}
-			if(i % 2 == 0) {
-				t2 = arr[i/2]+1;
+			if (i % 3 == 0) {
+				dp[i] = Math.min(dp[i], dp[i/3] + 1);
 			}
-			t3 = arr[i-1]+1;
-			
-			arr[i] = Math.min(t1, Math.min(t2, t3));
 		}
-		System.out.println(arr[N]);
+		System.out.println(dp[N]);
 	}
-
 }
