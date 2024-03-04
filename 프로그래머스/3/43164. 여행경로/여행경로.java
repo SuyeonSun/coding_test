@@ -1,32 +1,30 @@
 import java.util.*;
 
 class Solution {
-
-    static ArrayList<String> list = new ArrayList<>();
-    static boolean isVisited[];
-
-    public String[] solution(String[][] tickets) {
-        isVisited = new boolean[tickets.length];
-
-        dfs(0, "ICN", "ICN", tickets);
-
-        Collections.sort(list);
-
-        return list.get(0).split(" ");
-    }
-
-    static void dfs(int depth, String now, String path, String[][] tickets){
+    private static ArrayList<String> results = new ArrayList<>(); // 값이 한개 이상
+    private static boolean[] isVisited;
+    
+    public void dfs(int depth, String[][] tickets, String cur, String route) {
         if (depth == tickets.length) {
-            list.add(path);
+            results.add(route);
             return;
         }
-
+        
         for (int i = 0; i < tickets.length; i++) {
-            if (!isVisited[i] && now.equals(tickets[i][0])) {
+            if (!isVisited[i] && tickets[i][0].equals(cur)) {
                 isVisited[i] = true;
-                dfs(depth+1, tickets[i][1], path + " " +tickets[i][1], tickets);
+                dfs(depth+1, tickets, tickets[i][1], route + " " + tickets[i][1]);
                 isVisited[i] = false;
             }
-        }
+        } 
+    }
+    
+    public String[] solution(String[][] tickets) {
+        isVisited = new boolean[tickets.length];
+        
+        dfs(0, tickets, "ICN", "ICN"); // 시작은 항상 "ICN"
+        Collections.sort(results);
+        
+        return results.get(0).split(" ");
     }
 }
