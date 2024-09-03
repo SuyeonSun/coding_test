@@ -1,16 +1,19 @@
 def solution(word):
     answer = 0
-    word_list = []
-    words = "AEIOU"
     
-    def all_word(cnt, w):
+    words = ['A', 'E', 'I', 'O', 'U']
+    word_list = []
+    
+    def make_word(cnt, w):
         if cnt == 5:
             return
-        for i in range(len(words)):
-                word_list.append(w + words[i])
-                all_word(cnt + 1, w + words[i])
-                
-            
-    all_word(0, "")
+        for i in range(5):
+            new_word = w + words[i]
+            word_list.append(new_word)
+            make_word(cnt + 1,new_word)
     
-    return word_list.index(word) + 1
+    make_word(0, "")
+    
+    answer = word_list.index(word) + 1
+    
+    return answer
