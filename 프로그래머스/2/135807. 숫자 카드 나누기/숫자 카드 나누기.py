@@ -8,12 +8,12 @@ def solution(arrayA, arrayB):
     gcd_b = arrayB[0]
 
     for i in range(1, len(arrayA)):
-        gcd_a = math.gcd(gcd_a,arrayA[i])
-        gcd_b = math.gcd(gcd_b,arrayB[i])
+        gcd_a = math.gcd(gcd_a, arrayA[i])
+        gcd_b = math.gcd(gcd_b, arrayB[i])
     
-    def is_valid(gcd_value, opponent_array):
+    def is_valid(gcd_val, opponent_array):
         for i in opponent_array:
-            if i % gcd_value == 0:
+            if i % gcd_val == 0:
                 return False
         return True
     
