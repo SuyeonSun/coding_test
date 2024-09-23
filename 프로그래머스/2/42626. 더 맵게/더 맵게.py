@@ -3,6 +3,7 @@ import heapq
 def solution(scoville, K):
     answer = 0
     
+    # 가장 작은 순서대로 pop이 필요하기 때문에 min heap 사용
     heapq.heapify(scoville)
     
     while scoville:
@@ -12,8 +13,9 @@ def solution(scoville, K):
         if not scoville:
             return -1
         second = heapq.heappop(scoville)
-        new = first + (second*2)
-        heapq.heappush(scoville, new)
+        
+        mixed = first + (second * 2)
+        heapq.heappush(scoville, mixed)
         answer += 1
-    
+        
     return answer
