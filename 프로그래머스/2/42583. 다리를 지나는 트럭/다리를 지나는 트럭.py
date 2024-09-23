@@ -1,23 +1,25 @@
 from collections import deque
 
 def solution(bridge_length, weight, truck_weights):
+    answer = 0
     
     time = 0
-    bridge = deque([0] * bridge_length)  # [0]*bridge_length 을 덱으로 변환
-    truck_weights = deque(truck_weights) # 리스트를 덱으로 변환
-    
+    bridge = deque([0] * bridge_length)
+    truck_weights = deque(truck_weights)
     currentWeight = 0
-    while len(truck_weights) > 0:
-        time = time + 1
-
-        currentWeight = currentWeight - bridge.popleft()
-
-        if currentWeight + truck_weights[0] <= weight:
-            currentWeight = currentWeight + truck_weights[0]
-            bridge.append(truck_weights.popleft())
-        else: 
-            bridge.append(0)
- 
-    time = time + bridge_length
     
-    return time
+    while len(truck_weights) > 0:
+        time += 1
+        currentWeight -= bridge.popleft()
+        
+        if currentWeight + truck_weights[0] <= weight:
+            currentWeight += truck_weights[0]
+            bridge.append(truck_weights.popleft())
+        else:
+            bridge.append(0)
+    
+    time += bridge_length
+    
+    answer = time
+    
+    return answer
