@@ -3,12 +3,16 @@ from collections import deque
 def solution(people, limit):
     answer = 0
     
-    people = deque(sorted(people, reverse = True))
+    people = deque(sorted(people))
     
-    while people:
-        person = people.popleft()
-        if people and person + people[-1] <= limit:
-            people.pop()
+    while True:
+        if not people:
+            break
+        person = people.pop()
+        if len(people) > 0 and people[0] + person <= limit:
+            people.popleft()
         answer += 1
+    
+    
     
     return answer
