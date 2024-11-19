@@ -1,23 +1,31 @@
-N = int(input())
-an = list(map(int, input().split()))
-an.sort()
-
-M = int(input())
-am = list(map(int, input().split()))
-
-for i in am:
-    start = 0
-    end = len(an) - 1
-    is_find_num = False
-    while start <= end:
-        mid = (start + end) // 2
-        if i == an[mid]:
-            print(1)
-            is_find_num = True
-            break
-        elif i < an[mid]:
-            end = mid - 1
+def binary_search(array, target):
+    left, right = 0, len(array) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if array[mid] == target:
+            return True
+        elif array[mid] < target:
+            left = mid + 1
         else:
-            start = mid + 1
-    if not is_find_num:
-        print(0)
+            right = mid - 1
+    return False
+
+# 입력
+n = int(input())
+A = list(map(int, input().split()))
+m = int(input())
+queries = list(map(int, input().split()))
+
+# 정렬
+A.sort()
+
+# 각 쿼리 확인
+result = []
+for x in queries:
+    if binary_search(A, x):
+        result.append(1)
+    else:
+        result.append(0)
+
+# 출력
+print("\n".join(map(str, result)))
