@@ -20,13 +20,14 @@ def make_palindrome(input_string):
         half_palindrome.append(char * (char_count[char] // 2))
     
     # 결과 조합
+    # 입력 문자열이 AAABB라면, half_palindrome에는 ["A", "B"]가 저장
     first_half = "".join(half_palindrome)
-    second_half = first_half[::-1]
+    second_half = ''.join(reversed(first_half))
     if odd_char:
         return first_half + odd_char + second_half
     else:
         return first_half + second_half
 
 # 입력 처리
-input_string = input().strip()
+input_string = input()
 print(make_palindrome(input_string))
