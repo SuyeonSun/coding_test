@@ -1,12 +1,12 @@
 N, M = map(int, input().split())
 arr = [0] * M
 
-def dfs(index, depth, arr):
+def dfs(depth, arr):
     if depth == M:
         print(*arr)
         return
-    for i in range(N):
-        arr[depth] = i + 1
-        dfs(index + 1, depth + 1, arr)
+    for i in range(1, N+1):
+        arr[depth] = i
+        dfs(depth + 1, arr)
 
-dfs(0, 0, arr)
+dfs(0, arr)
