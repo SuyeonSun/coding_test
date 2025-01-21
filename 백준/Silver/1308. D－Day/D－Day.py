@@ -1,11 +1,14 @@
-from datetime import *
-today = list(map(int, input().split()))
-d_day = list(map(int, input().split()))
-if today[0] + 1000 < d_day[0]:
-    print("gg")
-elif today[0] + 1000 == d_day[0] and (today[1], today[2]) <= (d_day[1], d_day[2]):
+import datetime
+
+year1, month1, day1 = map(int, input().split())
+year2, month2, day2 = map(int, input().split())
+
+start_date = datetime.date(year1, month1, day1)
+target_date = datetime.date(year2, month2, day2)
+
+d_day = target_date - start_date
+
+if d_day.days >= 365243:
     print("gg")
 else:
-    today = date(*today)
-    d_day = date(*d_day)
-    print("D-"+str(d_day.toordinal() - today.toordinal()))
+    print("D-"+str(d_day.days))
