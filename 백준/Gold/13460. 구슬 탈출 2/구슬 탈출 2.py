@@ -63,7 +63,7 @@ board = [list(input().strip()) for _ in range(N)]
 rx, ry, bx, by = 0, 0, 0, 0  # 빨간, 파란 구슬 위치 저장
 
 for i in range(N):
-    for j in range(M):
+    for j in range(M):  # 열 개수는 M
         if board[i][j] == "R":
             rx, ry = i, j
         elif board[i][j] == "B":
