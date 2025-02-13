@@ -1,110 +1,78 @@
-import sys, copy
-N = int(input())
-pan = []
+import sys
+import copy
+
+N = int(sys.stdin.readline().strip())
+pan = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 ans = 0
 
-for _ in range(N):
-    pan.append([int(x) for x in sys.stdin.readline().rstrip().split()])
+def move(board, direction):
+    new_board = [[0] * N for _ in range(N)]  # 새로운 배열을 만들어 반환
 
-def left(board):
-    for i in range(N):
-        cursor = 0
-        for j in range(1, N):
-            if board[i][j] != 0: # 0이 아닌 값이
-                tmp = board[i][j]
-                board[i][j] = 0 # 일단 비워질꺼니까 0으로 바꿈
-
-                if board[i][cursor] == 0: # 비어있으면
-                    board[i][cursor] = tmp # 옮긴다
-
-                elif board[i][cursor] == tmp: # 같으면
-                    board[i][cursor] *= 2 # 합친다
-                    cursor += 1
-                else: # 비어있지도 않고 다른 값일때
-                    cursor += 1 # pass
-                    board[i][cursor] = tmp # 바로 옆에 붙임
-
-    return board
-
-def right(board):
-    for i in range(N):
-        cursor = N - 1
-        for j in range(N - 1, -1, -1):
-
-            if board[i][j] != 0:
-                tmp = board[i][j]
-                board[i][j] = 0
-
-                if board[i][cursor] == 0:
-                    board[i][cursor] = tmp
-
-                elif board[i][cursor] == tmp:
-                    board[i][cursor] *= 2
-                    cursor -= 1
-                else:
-                    cursor -= 1
-                    board[i][cursor] = tmp
-    return board
-
-def up(board):
-    for j in range(N):
-        cursor = 0
+    if direction == 0:  # 왼쪽 이동
         for i in range(N):
-            if board[i][j] != 0:
-                tmp = board[i][j]
-                board[i][j] = 0
+            temp = [x for x in board[i] if x != 0]  # 0 제거
+            idx = 0
+            for j in range(len(temp)):
+                if j < len(temp) - 1 and temp[j] == temp[j + 1]:  # 합칠 수 있는 경우
+                    new_board[i][idx] = temp[j] * 2
+                    temp[j + 1] = 0  # 다음 블록을 비움 (한 번 합치면 재합치기 방지)
+                    idx += 1
+                elif temp[j] != 0:  # 합치지 못한 경우 그대로 배치
+                    new_board[i][idx] = temp[j]
+                    idx += 1
 
-                if board[cursor][j] == 0:
-                    board[cursor][j] = tmp
+    elif direction == 1:  # 오른쪽 이동
+        for i in range(N):
+            temp = [x for x in board[i] if x != 0]
+            idx = N - 1
+            for j in range(len(temp) - 1, -1, -1):
+                if j > 0 and temp[j] == temp[j - 1]:  # 합칠 수 있는 경우
+                    new_board[i][idx] = temp[j] * 2
+                    temp[j - 1] = 0
+                    idx -= 1
+                elif temp[j] != 0:
+                    new_board[i][idx] = temp[j]
+                    idx -= 1
 
-                elif board[cursor][j] == tmp:
-                    board[cursor][j] *= 2
-                    cursor += 1
+    elif direction == 2:  # 위쪽 이동
+        for j in range(N):
+            temp = [board[i][j] for i in range(N) if board[i][j] != 0]
+            idx = 0
+            for i in range(len(temp)):
+                if i < len(temp) - 1 and temp[i] == temp[i + 1]:
+                    new_board[idx][j] = temp[i] * 2
+                    temp[i + 1] = 0
+                    idx += 1
+                elif temp[i] != 0:
+                    new_board[idx][j] = temp[i]
+                    idx += 1
 
-                else:
-                    cursor += 1
-                    board[cursor][j] = tmp
-    return board
+    elif direction == 3:  # 아래쪽 이동
+        for j in range(N):
+            temp = [board[i][j] for i in range(N) if board[i][j] != 0]
+            idx = N - 1
+            for i in range(len(temp) - 1, -1, -1):
+                if i > 0 and temp[i] == temp[i - 1]:
+                    new_board[idx][j] = temp[i] * 2
+                    temp[i - 1] = 0
+                    idx -= 1
+                elif temp[i] != 0:
+                    new_board[idx][j] = temp[i]
+                    idx -= 1
 
-def down(board):
-    for j in range(N):
-        cursor = N - 1
-        for i in range(N - 1, -1, -1):
-            if board[i][j] != 0:
-                tmp = board[i][j]
-                board[i][j] = 0
-
-                if board[cursor][j] == 0:
-                    board[cursor][j] = tmp
-
-                elif board[cursor][j] == tmp:
-                    board[cursor][j] *= 2
-                    cursor -= 1
-
-                else:
-                    cursor -= 1
-                    board[cursor][j] = tmp
-    return board
+    return new_board
 
 def dfs(n, arr):
     global ans
+    ans = max(ans, max(map(max, arr)))  # 현재 최대값 업데이트
+
     if n == 5:
-        for i in range(N):
-            for j in range(N):
-                if arr[i][j] > ans:
-                    ans = arr[i][j]
         return
 
     for i in range(4):
-        copy_arr = copy.deepcopy(arr)
-        if i == 0:
-            dfs(n + 1, left(copy_arr))
-        elif i == 1:
-            dfs(n + 1, right(copy_arr))
-        elif i == 2:
-            dfs(n + 1, up(copy_arr))
-        else:
-            dfs(n + 1, down(copy_arr))
+        new_board = move(arr, i)
+        if new_board != arr:  # 이동이 발생한 경우에만 진행
+            dfs(n + 1, new_board)
 
 dfs(0, pan)
 print(ans)
