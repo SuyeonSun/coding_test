@@ -4,12 +4,12 @@ class Solution {
     static boolean[] visit;
     static Queue<Integer> queue = new LinkedList<>();
     
-    static void bfs(int i, int[][] computers, int n) {
+    private static void bfs(int i, int[][] computers, int n) {
         queue.offer(i);
         visit[i] = true;
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             int value = queue.poll();
-            for (int j=0; j<n; j++) {
+            for(int j=0; j<n; j++) {
                 if(visit[j] == false && computers[value][j] == 1) {
                     visit[j] = true;
                     queue.offer(j);
@@ -25,10 +25,10 @@ class Solution {
         for(int i=0; i<n; i++) {
             if(visit[i] == false) {
                 bfs(i, computers, n);
-                answer++;
+                answer += 1;
             }
         }
-                
+        
         return answer;
     }
 }
