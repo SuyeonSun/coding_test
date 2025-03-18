@@ -1,36 +1,43 @@
 import java.util.*;
 import java.io.*;
 
-class Main {
+public class Main {
     public static void main(String[] args) throws IOException {
-        // Scanner sc = new Scanner(System.in);
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in)); //선언
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         Stack<Integer> stack = new Stack<>();
+        int N = Integer.parseInt(in.readLine());
+        StringBuilder sb = new StringBuilder(); 
 
-        // int num = Integer.parseInt(sc.nextLine());
-        int num = Integer.parseInt(bf.readLine());
+        for (int i = 0; i < N; i++) {
+            String[] cmd = in.readLine().split(" ");
 
-        for (int i = 0; i < num; i++) {
-            String input = bf.readLine();
-
-            if (input.contains("push")) {
-                stack.push(Integer.parseInt(input.split(" ")[1]));
-            } else if (input.contains("pop")) {
-                if (stack.isEmpty()) System.out.println(-1); 
-                else {
-                    System.out.println(stack.peek());                    
-                    stack.pop();
-                }
-            } else if (input.contains("size")) {
-                System.out.println(stack.size());
-            } else if (input.contains("empty")) {
-                if (stack.isEmpty()) System.out.println(1);
-                else System.out.println(0);
-            } else {
-                if (stack.isEmpty()) System.out.println(-1);
-                else System.out.println(stack.peek()); 
+            switch (cmd[0]) {
+                case "push":
+                    stack.push(Integer.parseInt(cmd[1]));
+                    break;
+                case "pop":
+                    if (stack.isEmpty()) {
+                        sb.append(-1).append("\n");
+                    } else {
+                        sb.append(stack.pop()).append("\n");
+                    }
+                    break;
+                case "size":
+                    sb.append(stack.size()).append("\n");
+                    break;
+                case "empty":
+                    sb.append(stack.isEmpty() ? 1 : 0).append("\n");
+                    break;
+                case "top":
+                    if (stack.isEmpty()) {
+                        sb.append(-1).append("\n");
+                    } else {
+                        sb.append(stack.peek()).append("\n");
+                    }
+                    break;
             }
-
         }
+
+        System.out.print(sb); // 한 번에 출력
     }
 }
